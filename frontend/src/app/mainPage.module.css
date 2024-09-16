@@ -1,0 +1,35 @@
+.main {
+  background: #121f25;
+  background-image: linear-gradient(
+      to top,
+      rgba(18, 31, 37, 0) 0%,
+      rgba(18, 31, 37, 1) 95%
+    ),
+    url(../../public/palas.png);
+  background-position: left;
+  background-size: 50px;
+  background-repeat: repeat-y;
+}
+@media screen and (min-width: 650px) {
+  .main {
+    background-size: 70px;
+  }
+  .mainInner {
+    background-size: 70px;
+  }
+}
+
+.topMenu {
+  width: 95vw;
+  top: 10vh;
+  left: 2.5vw;
+  right: 10vw;
+  height: 90px;
+  border-radius: 20px;
+}
+
+.header {
+  background: #121f25;
+  width: 100%;
+  padding-bottom: 10px;
+}

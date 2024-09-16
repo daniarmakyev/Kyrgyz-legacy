@@ -1,0 +1,63 @@
+/* null.css */
+
+/* Удаляем отступы и поля у всех элементов */
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Удаляем список стилей у всех списков */
+ul, ol {
+    list-style: none;
+}
+
+/* Удаляем подчеркивание у всех ссылок */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Удаляем обводку у всех кнопок и полей ввода при фокусе */
+button, input, textarea {
+    outline: none;
+    border: none;
+    background: none;
+}
+
+/* Устанавливаем базовые стили для кнопок */
+button {
+    cursor: pointer;
+    background-color: transparent;
+}
+
+/* Удаляем обводку у изображений */
+img {
+    border: none;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Базовый стиль для таблиц */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* Удаляем стили у цитат */
+blockquote, q {
+    quotes: none;
+}
+
+/* Удаляем стили у полей формы */
+input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    border: none;
+    background-color: transparent;
+}
+
+/* Удаляем точку в конце абзаца в некоторых браузерах */
+p::after {
+    content: none;
+}
