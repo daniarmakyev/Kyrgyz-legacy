@@ -20,7 +20,7 @@ export const wordsSlice = createSlice({
       })
       .addCase(fetchWordByLevel.fulfilled, (state, action: PayloadAction<Word[]>) => {
         state.loading = false;
-        state.words = action.payload;
+        state.words = action.payload.sort((a, b) => a.wordId - b.wordId);
       })
       .addCase(fetchWordByLevel.rejected, (state, action) => {
         state.loading = false;
@@ -28,5 +28,3 @@ export const wordsSlice = createSlice({
       });
   },
 });
-
-export default wordsSlice.reducer;
