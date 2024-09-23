@@ -2,14 +2,16 @@ const express = require('express');
 require('dotenv').config();
 const sequelize = require('./db');
 const cors = require('cors');
-
-const PORT = process.env.PORT || 9000;
+const path = require('path');
+const PORT = process.env.PORT || 8080;
 const router = require('./routes/index');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/api', router);
 

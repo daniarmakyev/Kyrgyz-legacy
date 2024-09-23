@@ -1,0 +1,23 @@
+{
+  "word": {
+    "id": 1,
+    "words": ["Мешок", "Мешки", "Мешков"],
+    "sound": [
+      "тут должен быть файл для звуков",
+      "тут должен быть файл для звуков",
+      "тут должен быть файл для звуков"
+    ]
+  },
+  "translateRu": {
+    "id": 1,
+    "words": ["translateRu", "translateRu", "translateRu"]
+  },
+  "translateHi": {
+    "id": 1,
+    "words": ["translateHi", "translateHi", "translateHi"]
+  },
+  "translateEn": {
+    "id": 1,
+    "words": ["translateEn", "translateEn", "translateEn"]
+  }
+}

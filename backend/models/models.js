@@ -32,7 +32,16 @@ const User = sequelize.define("user", {
   passwordConfirm: {
     type: DataTypes.VIRTUAL,
   },
+  lang: {
+    type: DataTypes.STRING,
+    allowNull: false, 
+    validate: {
+      isIn: [['ru', 'en', 'hi']],
+    },
+    defaultValue: 'en',
+  },
 });
+
 User.beforeSave(async (user, options) => {
   if (user.changed("password")) {
     user.password = await bcrypt.hash(user.password, 5);
@@ -71,7 +80,11 @@ const Word = sequelize.define(
         type: DataTypes.STRING,
         allowNull: false,
       },
-      sound: {
+      manSound: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      womanSound: {
         type: DataTypes.STRING,
         allowNull: true,
       },
