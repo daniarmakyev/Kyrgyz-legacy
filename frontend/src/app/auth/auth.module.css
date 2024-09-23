@@ -7,3 +7,51 @@
     align-items: center;
     justify-content: center;
 }
+
+.formochka {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    position: relative;
+}
+
+.formochka input {
+    padding: 5px 15px 8px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.15);
+    background: rgb(255, 255, 255);
+    color: #000;
+}
+
+.formochka select {
+    padding: 5px 15px 8px;
+    min-width: 206px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.15);
+    background: rgb(255, 255, 255);
+}
+
+.formochka input:focus {
+    box-shadow: none;
+    box-shadow: inset 15px 15px 10px -7px rgba(0, 0, 0, 0.25);
+}
+
+.error-container {
+    height: 60px;
+    overflow-y: auto;
+    margin-top: 10px;
+    max-width: 100%;
+    text-align: center;
+}
+
+.authBtn {
+    background-color: #ef4444;
+    padding: 5px 15px 8px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.15);
+}
+
+.authBtn:hover {
+    box-shadow: none;
+    box-shadow: inset 15px 15px 10px -7px rgba(0, 0, 0, 0.25);
+}
