@@ -4,6 +4,7 @@ import styles from "./mainPage.module.css";
 import { useEffect, useState } from "react";
 import LevelButton from "@/components/levelButton/page";
 import { useBackgroundColorObserver } from "@/hooks/useBackgroundColorObserver";
+import { UseGoBack } from "@/hooks/UseGoBack";
 
 export default function Home() {
   const levelsArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
@@ -49,7 +50,7 @@ export default function Home() {
   }, []);
 
   useBackgroundColorObserver(setBgColor);
-
+  UseGoBack();
   return (
     <div
       className={styles.main}

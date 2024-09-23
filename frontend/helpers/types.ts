@@ -15,6 +15,7 @@ export type RegisterValues = {
     email: string;
     password: string;
     passwordConfirm: string;
+    lang:string;
     [key: string]: string;
   };
 
@@ -26,7 +27,8 @@ export interface Word {
     translationRu: string;
     translationEn: string;
     translationHi: string;
-    sound: string;
+    manSound?: string;
+    womanSound?: string;
     level: number;
   }
   
