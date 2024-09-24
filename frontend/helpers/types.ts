@@ -38,5 +38,7 @@ export interface Word {
     loading: boolean;
     words: Word[] | null;
   }
-
-  
+export interface LoginValues {
+  email: string;
+  password: string;
+}

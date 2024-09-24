@@ -16,8 +16,7 @@ const AuthPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setErrors([]);
-
+    
     const newErrors: string[] = [];
     if (password.length < 8) {
       newErrors.push("Password must be at least 8 characters");
@@ -32,6 +31,7 @@ const AuthPage = () => {
       newErrors.push("Passwords do not match");
     }
 
+    // Если есть ошибки валидации, обновляем состояние ошибок
     if (newErrors.length > 0) {
       setErrors(newErrors);
       return;
@@ -49,7 +49,9 @@ const AuthPage = () => {
 
   useEffect(() => {
     if (error) {
+      // Добавляем ошибку из Redux в состояние ошибок
       setErrors((prevErrors) => [...prevErrors, error]);
+      console.error("Registration Error:", error); // Для отладки
     }
   }, [error]);
 
@@ -102,16 +104,16 @@ const AuthPage = () => {
         <button type="submit" disabled={loading} className={style.authBtn}>
           Register
         </button>
-        <Link href={"/auth/login"} >Already have an account? </Link>
+        <Link href={"/auth/login"} className=" ms-auto me-auto">Already have an account?</Link>
         {errors.length > 0 && (
-    <div className="error-container">
-        <ul className="absolute">
-            {errors.map((error, index) => (
-                <li className="mb-1 text-red-500 font-bold" key={index}>{error}</li>
-            ))}
-        </ul>
-    </div>
-)}
+          <div className="error-container">
+            <ul className="absolute">
+              {errors.map((error, index) => (
+                <li className="mb-1 text-red-500 font-bold text-md ms-auto me-auto" key={index}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </form>
     </div>
   );

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { StatesType } from "../../helpers/types";
-import { registerUser } from "./Users.action";
+import { registerUser, loginUser } from "./Users.action";
 
 const INIT_STATE: StatesType = {
   error: null,
@@ -12,21 +12,43 @@ const INIT_STATE: StatesType = {
 export const usersSlice = createSlice({
   name: "users",
   initialState: INIT_STATE,
-  reducers: {},
+  reducers: {
+    logout(state) {
+      state.user = null;
+      state.currentUser = null;
+      state.error = null;
+      localStorage.removeItem("tokens");
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
       })
-      .addCase(registerUser.fulfilled, (state) => {
+      .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
+        state.user = action.payload.user; 
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string;
+        state.error = action.error.message as string;
+      })
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.user = action.payload.user;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message as string;
       });
   },
 });
+
+export const { logout } = usersSlice.actions;
 
 export default usersSlice.reducer;
