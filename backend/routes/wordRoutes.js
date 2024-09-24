@@ -3,7 +3,7 @@ const router = express.Router();
 const wordController = require('../controllers/wordController');
 const multer = require('multer');
 const path = require('path');
-const authenticateToken = require('../middleware/authenticateToken'); // Импортируй middleware
+const authenticateToken = require('../middleware/jwtTokenMiddleware'); // Импортируй middleware
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

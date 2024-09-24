@@ -40,6 +40,10 @@ const User = sequelize.define("user", {
     },
     defaultValue: 'en',
   },
+  refreshToken: {
+  type: DataTypes.STRING,
+  allowNull: true,
+},
 });
 
 User.beforeSave(async (user, options) => {
