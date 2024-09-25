@@ -6,8 +6,7 @@ export const UseGoBack = () => {
     const router = useRouter();
   
     useEffect(() => {
-      // Проверяем, что код выполняется только на клиенте
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('tokens');
       if (!token) {
         router.push('/auth');
       }

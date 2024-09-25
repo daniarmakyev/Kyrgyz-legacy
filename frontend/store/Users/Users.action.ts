@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RegisterValues, LoginValues } from "../../helpers/types"; 
 import { $axios } from "../../helpers/axios";
+
 export const registerUser = createAsyncThunk(
   "users/registerUser",
   async ({ data }: { data: RegisterValues }) => {
@@ -18,22 +19,41 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-
-
 export const loginUser = createAsyncThunk(
   "users/loginUser",
-  async (data: LoginValues) => { // убрали обертку { data }
+  async (data: LoginValues) => {
     try {
       const res = await $axios.post("/users/login", data, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      localStorage.setItem("tokens", JSON.stringify(res.data.tokens));
+
+      const tokens = {
+        accessToken: res.data.accessToken,
+        refreshToken: res.data.refreshToken
+      };
+
+      localStorage.setItem("tokens", JSON.stringify(tokens));
+
       return res.data;
     } catch (error: any) {
       const errorMessage = error.response?.data?.error || 'Login error';
       throw new Error(errorMessage);
     }
+  }
+);
+
+export const fetchCurrentUser = createAsyncThunk(
+  "users/fetchCurrentUser",
+  async () => {
+    const tokens = JSON.parse(localStorage.getItem("tokens") || "{}");
+    const res = await $axios.get("/users/me", {
+      headers: {
+        'Authorization': `Bearer ${tokens.accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return res.data;
   }
 );

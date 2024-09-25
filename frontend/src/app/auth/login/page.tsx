@@ -4,14 +4,15 @@ import style from "../auth.module.css";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "../../../../helpers/types";
 import { loginUser } from "../../../../store/Users/Users.action";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
   const dispatch = useAppDispatch();
-  const { error, loading } = useAppSelector((state) => state.users);
-
+  const { error, loading ,user} = useAppSelector((state) => state.users);
+  const router = useRouter()
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -22,8 +23,6 @@ const LoginPage = () => {
     if (password.length < 8) {
       newErrors.push("Password must be at least 8 characters");
     }
-
-    // Если есть ошибки валидации, обновляем состояние ошибок
     if (newErrors.length > 0) {
       setErrors(newErrors);
       return;
@@ -40,11 +39,14 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (error) {
-      // Добавляем ошибку из Redux в состояние ошибок
       setErrors((prevErrors) => [...prevErrors, error]);
-      console.error("Login Error:", error); // Для отладки
+      console.error("Login Error:", error); 
     }
-  }, [error]);
+    if (user) {
+
+     router.push('/')
+    }
+  }, [error,user]);
 
   return (
     <div className={style.auth}>

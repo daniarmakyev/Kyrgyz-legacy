@@ -7,8 +7,8 @@ export const useAppSelector = useSelector.withTypes<RootState>();
 export type StatesType = {
   error: null | string;
   loading: boolean;
-  user?: null ;
-  currentUser?:null;
+  user?: null | User;
+  currentUser?:null | User;
 };
 
 export type RegisterValues = {
@@ -41,4 +41,17 @@ export interface Word {
 export interface LoginValues {
   email: string;
   password: string;
+}
+
+export interface User {
+  id: number;
+  email: string;
+  password: string;
+  role: 'USER' | 'ADMIN'; 
+  level: number;
+  lives: number;
+  lang: 'ru' | 'en' | 'hi'; 
+  refreshToken: string;
+  createdAt: string;
+  updatedAt: string;
 }

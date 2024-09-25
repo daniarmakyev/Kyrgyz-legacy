@@ -18,11 +18,9 @@ function HandleLogout() {
 }
 
 $axios.interceptors.request.use((config) => {
-  // Получение токенов из localStorage
   const tokens = JSON.parse(localStorage.getItem("tokens") as string);
-  if (tokens) {
-    // Добавление токена авторизации в заголовок запроса
-    config.headers.Authorization = `Bearer ${tokens.access}`;
+  if (tokens && tokens.accessToken) {
+    config.headers.Authorization = `Bearer ${tokens.accessToken}`;
   }
   return config;
 });
@@ -33,24 +31,20 @@ $axios.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // Проверка статуса ошибки (403) и отсутствия флага _retry
-    if (error.response?.status === 403 && !originalRequest._retry) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const tokens = JSON.parse(localStorage.getItem("tokens") as string);
-      if (tokens) {
-        try {
-          // Обновляем токен через запрос к API
-          const { data } = await $axios.post("/token/refresh", {
-            refresh: tokens.refresh, // Передаем refresh-токен
-          });
 
-          // Сохраняем новый access-токен в localStorage
+      if (tokens && tokens.refreshToken) {
+        try {
+          const { data } = await $axios.post("/users/token/refresh", {
+            refreshToken: tokens.refreshToken,
+          });
           localStorage.setItem(
             "tokens",
-            JSON.stringify({ ...tokens, access: data.access })
+            JSON.stringify({ ...tokens, accessToken: data.accessToken })
           );
-
-          // Повторяем оригинальный запрос с новым токеном
+          originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
           return $axios(originalRequest);
         } catch (error) {
           console.log("Token refresh failed", error);
@@ -58,6 +52,7 @@ $axios.interceptors.response.use(
         }
       }
     }
+
     return Promise.reject(error);
   }
 );
