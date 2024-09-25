@@ -11,6 +11,8 @@ router.post('/login', userController.login);
 // Маршрут для проверки валидности токена
 router.get('/auth', userController.check);
 
+router.get('/me', userController.getUser);
+
 // Маршрут для обновления access-токена через refresh-токен
 router.post('/token/refresh', userController.refresh);
 

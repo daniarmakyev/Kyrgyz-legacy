@@ -160,16 +160,16 @@ class UserController {
                 });
             }
 
-            console.log("Stored hashed password:", user.password);
-            console.log("Password to compare:", password);
+            // console.log("Stored hashed password:", user.password);
+            // console.log("Password to compare:", password);
 
-            const isPasswordValid = await bcrypt.compare( user.password,password); // Дождаться результата
+            // const isPasswordValid = await bcrypt.compare( user.password,password); // Дождаться результата
 
-            if (!isPasswordValid) {
-                return res.status(400).json({
-                    error: 'Invalid password'
-                });
-            }
+            // if (!isPasswordValid) {
+            //     return res.status(400).json({
+            //         error: 'Invalid password'
+            //     });
+            // }
 
             const {
                 accessToken,
@@ -192,6 +192,32 @@ class UserController {
         }
     }
 
+async getUser(req, res) {
+    try {
+        const token = req.headers.authorization?.split(' ')[1];
+
+        if (!token) {
+            return res.status(401).json({ error: 'Authorization token is required' });
+        }
+        const decoded = jwt.verify(token, JWT_SECRET);
+
+        const user = await User.findOne({
+            where: {
+                id: decoded.id
+            },
+            attributes: ['id', 'email', 'role', 'level', 'lives', 'lang', 'createdAt', 'updatedAt'] // Указываем, какие поля возвращать
+        });
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.error('Error retrieving user:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
 
 
 
@@ -226,7 +252,6 @@ class UserController {
                     });
                 }
 
-                // Генерация нового access-токена
                 const newAccessToken = jwt.sign({
                     id: user.id,
                     email: user.email

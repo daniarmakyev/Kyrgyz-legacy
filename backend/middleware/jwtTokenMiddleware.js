@@ -13,8 +13,8 @@ const authenticateToken = (req, res, next) => {
         if (err) {
             return res.status(403).json({ message: 'Invalid token.' });
         }
-        req.user = user; // Сохраняем данные пользователя из токена
-        next(); // Передаем управление следующему middleware или контроллеру
+        req.user = user; 
+        next(); 
     });
 };
 
