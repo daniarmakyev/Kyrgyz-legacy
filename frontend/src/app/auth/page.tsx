@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../../helpers/types";
 import { registerUser } from "../../../store/Users/Users.action";
 import style from "./auth.module.css";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const AuthPage = () => {
   const [email, setEmail] = useState("");
@@ -11,12 +12,13 @@ const AuthPage = () => {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [lang, setLang] = useState("ru");
   const [errors, setErrors] = useState<string[]>([]);
+  const [successMessage, setSuccessMessage] = useState<string>(""); // Состояние для сообщения об успехе
   const dispatch = useAppDispatch();
   const { error, loading } = useAppSelector((state) => state.users);
-
+  const router = useRouter()
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const newErrors: string[] = [];
     if (password.length < 8) {
       newErrors.push("Password must be at least 8 characters");
@@ -30,8 +32,6 @@ const AuthPage = () => {
     if (password !== passwordConfirm) {
       newErrors.push("Passwords do not match");
     }
-
-    // Если есть ошибки валидации, обновляем состояние ошибок
     if (newErrors.length > 0) {
       setErrors(newErrors);
       return;
@@ -44,19 +44,33 @@ const AuthPage = () => {
       lang,
     };
 
-    dispatch(registerUser({ data: formData }));
+    dispatch(registerUser({ data: formData })).then((response) => {
+      if (response.meta.requestStatus === "fulfilled") {
+        setEmail("");
+        setPassword("");
+        setPasswordConfirm("");
+        setLang("ru");
+        setErrors([]);
+        setSuccessMessage("You have successfully registered!");
+        router.push('/auth/login')
+      }
+    });
   };
 
   useEffect(() => {
     if (error) {
-      // Добавляем ошибку из Redux в состояние ошибок
       setErrors((prevErrors) => [...prevErrors, error]);
-      console.error("Registration Error:", error); // Для отладки
+      console.error("Registration Error:", error);
     }
   }, [error]);
 
   return (
     <div className={style.auth}>
+              {successMessage && (
+          <div className="text-green-500 font-bold mt-4 max-w-44 text-center ms-auto me-auto">
+            {successMessage}
+          </div>
+        )}
       <h3 className="mb-4 font-semibold">Registration</h3>
       <form onSubmit={handleSubmit} className={style.formochka}>
         <div>
@@ -102,14 +116,18 @@ const AuthPage = () => {
           </select>
         </div>
         <button type="submit" disabled={loading} className={style.authBtn}>
-          Register
+          Sign Up
         </button>
-        <Link href={"/auth/login"} className=" ms-auto me-auto">Already have an account?</Link>
+        <Link href={"auth/login"} className="ms-auto me-auto">
+          Already have an account?
+        </Link>
         {errors.length > 0 && (
-          <div className="error-container">
+          <div className="error-containe mb-36">
             <ul className="absolute">
               {errors.map((error, index) => (
-                <li className="mb-1 text-red-500 font-bold text-md ms-auto me-auto" key={index}>{error}</li>
+                <li className="mb-1 text-red-500 font-bold text-md ms-auto me-auto" key={index}>
+                  {error}
+                </li>
               ))}
             </ul>
           </div>

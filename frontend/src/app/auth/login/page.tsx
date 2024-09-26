@@ -44,7 +44,7 @@ const LoginPage = () => {
     }
     if (user) {
 
-     router.push('/')
+      router.push('/');
     }
   }, [error,user]);
 
