@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { StatesType } from "../../helpers/types";
-import { registerUser, loginUser, fetchCurrentUser } from "./Users.action";
+import { registerUser, loginUser, fetchCurrentUser, updateCurrentUser } from "./Users.action";
 
 const INIT_STATE: StatesType = {
   error: null,
@@ -28,7 +28,7 @@ export const usersSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.user = action.payload.user; 
+        state.user = action.payload.user;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
@@ -55,6 +55,19 @@ export const usersSlice = createSlice({
         state.currentUser = action.payload;
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message as string;
+      })
+      .addCase(updateCurrentUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateCurrentUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.currentUser = { ...state.currentUser, ...action.payload }; 
+        console.log("Updated currentUser:", state.currentUser);
+      })
+      .addCase(updateCurrentUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message as string;
       });

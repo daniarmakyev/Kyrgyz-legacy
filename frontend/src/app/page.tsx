@@ -3,14 +3,31 @@ import Image from "next/image";
 import styles from "./mainPage.module.css";
 import { useEffect, useState } from "react";
 import LevelButton from "@/components/levelButton/page";
-import { useBackgroundColorObserver } from "@/hooks/useBackgroundColorObserver";
-import { UseGoBack } from "@/hooks/UseGoBack";
+import { useBackgroundColorObserver } from "@/scripts/useBackgroundColorObserver";
+import { UseGoBack } from "@/scripts/UseGoBack";
+import { useAppDispatch, useAppSelector } from "../../helpers/types";
+import { fetchCurrentUser } from "../../store/Users/Users.action";
+
 
 export default function Home() {
   const levelsArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   const [bgColor, setBgColor] = useState("#FC4E4D");
   const [gradientValue, setGradientValue] = useState(95);
   const [bgSize, setBgSize] = useState("50px");
+  const [heart, setHeart] = useState("loading");
+  const {currentUser, loading} = useAppSelector(state => state.users)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (currentUser) {
+      setHeart(`${currentUser.lives}`);
+    }
+  }, [currentUser]);
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 650) {
@@ -36,7 +53,7 @@ export default function Home() {
           window.pageYOffset || document.documentElement.scrollTop;
         const maxScroll =
           document.documentElement.scrollHeight - window.innerHeight;
-        const newGradientValue = Math.max(0, 95 - (scrollTop / maxScroll) * 70);
+        const newGradientValue = Math.max(0, 95 - (scrollTop / maxScroll) * 55);
         setGradientValue(newGradientValue);
       }
     };
@@ -87,7 +104,7 @@ export default function Home() {
           </div>
           <div className="flex align-middle self-center items-center gap-2">
             <Image src={"/heart.png"} alt="heart" width={35} height={30} />
-            <span>5</span>
+            <span>{loading ? "error" : heart}</span>
           </div>
         </div>
         <div

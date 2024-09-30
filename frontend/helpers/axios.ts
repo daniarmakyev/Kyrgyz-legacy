@@ -3,7 +3,6 @@ import { useAppDispatch } from "./types";
 import { useRouter } from "next/navigation";
 import { logout } from "../store/Users/Users.slice";
 
-// Создание экземпляра Axios
 export const $axios = axios.create({
   baseURL: "http://localhost:8080/api",
 });
@@ -12,9 +11,9 @@ function HandleLogout() {
   console.log("Logging out due to token expiration");
 
   const dispatch = useAppDispatch();
-  const navigate = useRouter();
+  const router = useRouter();
   dispatch(logout());
-  navigate.push('/auth');
+  router.push('/auth');
 }
 
 $axios.interceptors.request.use((config) => {
@@ -25,13 +24,13 @@ $axios.interceptors.request.use((config) => {
   return config;
 });
 
-
 $axios.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 403 && !originalRequest._retry) {
+    // Обработка ошибки 401
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const tokens = JSON.parse(localStorage.getItem("tokens") as string);
 
@@ -40,17 +39,27 @@ $axios.interceptors.response.use(
           const { data } = await $axios.post("/users/token/refresh", {
             refreshToken: tokens.refreshToken,
           });
+          
           localStorage.setItem(
             "tokens",
             JSON.stringify({ ...tokens, accessToken: data.accessToken })
           );
+
           originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
           return $axios(originalRequest);
-        } catch (error) {
-          console.log("Token refresh failed", error);
+        } catch (refreshError) {
+          console.log("Token refresh failed", refreshError);
           HandleLogout();
         }
+      } else {
+        HandleLogout();
       }
+    }
+
+    // Обработка ошибки 403
+    if (error.response?.status === 403) {
+      console.log("Access denied. Logging out.");
+      HandleLogout();
     }
 
     return Promise.reject(error);
