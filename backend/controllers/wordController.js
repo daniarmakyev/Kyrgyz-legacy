@@ -1,9 +1,26 @@
 const { Word } = require('../models/models');
 const sequelize = require('../db');
+const jwt = require('jsonwebtoken');
+
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+
 class WordController {
     async addWord(req, res) {
         const transaction = await sequelize.transaction();
         try {
+            const token = req.headers.authorization?.split(' ')[1];
+
+            if (!token) {
+                return res.status(401).json({ error: 'Authorization token is required' });
+            }
+
+            // Проверка токена
+            jwt.verify(token, JWT_SECRET, (err) => {
+                if (err) {
+                    return res.status(403).json({ error: 'Invalid token' });
+                }
+            });
+
             const {
                 wordId,
                 word,
@@ -12,7 +29,7 @@ class WordController {
                 translationHi,
                 level
             } = req.body;
-    
+
             const manSound = req.files?.manSound ? req.files.manSound[0].filename : null;
             const womanSound = req.files?.womanSound ? req.files.womanSound[0].filename : null;
 
@@ -26,7 +43,7 @@ class WordController {
                 manSound: manSound ? `${manSound}` : null,
                 womanSound: womanSound ? `${womanSound}` : null,
             }, { transaction });
-    
+
             await transaction.commit();
             res.status(201).json(newWord);
         } catch (error) {
@@ -38,7 +55,20 @@ class WordController {
 
     async getWordById(req, res) {
         try {
-            const { id } = req.params; // Используй деструктуризацию
+            const token = req.headers.authorization?.split(' ')[1];
+
+            if (!token) {
+                return res.status(401).json({ error: 'Authorization token is required' });
+            }
+
+            // Проверка токена
+            jwt.verify(token, JWT_SECRET, (err) => {
+                if (err) {
+                    return res.status(403).json({ error: 'Invalid token' });
+                }
+            });
+
+            const { id } = req.params;
 
             const word = await Word.findByPk(id);
             if (!word) {
@@ -54,6 +84,19 @@ class WordController {
 
     async getWordByLevel(req, res) {
         try {
+            const token = req.headers.authorization?.split(' ')[1];
+
+            if (!token) {
+                return res.status(401).json({ error: 'Authorization token is required' });
+            }
+
+            // Проверка токена
+            jwt.verify(token, JWT_SECRET, (err) => {
+                if (err) {
+                    return res.status(403).json({ error: 'Invalid token' });
+                }
+            });
+
             const { level } = req.params;
 
             const words = await Word.findAll({
@@ -74,7 +117,20 @@ class WordController {
     async deleteWord(req, res) {
         const transaction = await sequelize.transaction();
         try {
-            const { id } = req.params; // Используй деструктуризацию
+            const token = req.headers.authorization?.split(' ')[1];
+
+            if (!token) {
+                return res.status(401).json({ error: 'Authorization token is required' });
+            }
+
+            // Проверка токена
+            jwt.verify(token, JWT_SECRET, (err) => {
+                if (err) {
+                    return res.status(403).json({ error: 'Invalid token' });
+                }
+            });
+
+            const { id } = req.params;
 
             const word = await Word.findByPk(id);
             if (!word) {

@@ -5,8 +5,31 @@ const cors = require('cors');
 const path = require('path');
 const PORT = process.env.PORT || 8080;
 const router = require('./routes/index');
+const cron = require('node-cron');
+const {User} = require('./models/models')
 
 const app = express();
+
+const restoreUserLives = async () => {
+    try {
+        const allUsers = await User.findAll();
+
+        for (const user of allUsers) {
+            if (user.lives < 5) {
+                user.lives += 1;
+                await user.save();
+                console.log(`Restored life for user: ${user.id}, new lives: ${user.lives}`);
+            }
+        }
+    } catch (error) {
+        console.error('Error restoring lives:', error);
+    }
+};
+
+cron.schedule('*/15 * * * * *', () => {
+    console.log('Running restoreUserLives task');
+    restoreUserLives();
+});
 
 app.use(cors());
 app.use(express.json());
