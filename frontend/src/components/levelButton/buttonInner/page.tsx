@@ -1,24 +1,28 @@
+import { encodeId } from "@/scripts/decoder";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 interface ButtonInnerProps {
-  number: number;
+  level: number;
 }
 
-const ButtonInner: React.FC<ButtonInnerProps> = ({ number }) => {
+const ButtonInner: React.FC<ButtonInnerProps> = ({ level }) => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/level/${number}`);
-  };
+    const encodedLevel = encodeId(level); 
+    router.push(`/level/${encodedLevel}`);
+};
+
+
 
   let color = "";
   let border = "";
 
-  if (number <= 5) {
+  if (level <= 5) {
     color = "#FC4E4D";
     border = "#bc2121";
-  } else if (number <= 10) {
+  } else if (level <= 10) {
     color = "#02CD9C";
     border = "#08A47C";
 
@@ -30,7 +34,7 @@ const ButtonInner: React.FC<ButtonInnerProps> = ({ number }) => {
   return (
     <button
       onClick={handleClick}
-      className={`btn${number} p-1 relative rounded-full  border-b-8 transform transition-all duration-200 ease-in-out hover:pt-0 hover:mt-1 z-10`}
+      className={`btn${level} p-1 relative rounded-full  border-b-8 transform transition-all duration-200 ease-in-out hover:pt-0 hover:mt-1 z-10`}
       style={{
         backgroundColor: `${color}`,
         borderBottom: `8px solid ${border}`,

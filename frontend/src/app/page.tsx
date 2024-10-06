@@ -2,12 +2,13 @@
 import Image from "next/image";
 import styles from "./mainPage.module.css";
 import { useEffect, useState } from "react";
+
+import { useAppDispatch, useAppSelector } from "../../helpers/types";
+import { fetchCurrentUser } from "../../store/Users/Users.action";
 import LevelButton from "@/components/levelButton/page";
 import { useBackgroundColorObserver } from "@/scripts/useBackgroundColorObserver";
 import { UseGoBack } from "@/scripts/UseGoBack";
-import { useAppDispatch, useAppSelector } from "../../helpers/types";
-import { fetchCurrentUser } from "../../store/Users/Users.action";
-
+import axios from "axios";
 
 export default function Home() {
   const levelsArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
@@ -15,8 +16,8 @@ export default function Home() {
   const [gradientValue, setGradientValue] = useState(95);
   const [bgSize, setBgSize] = useState("50px");
   const [heart, setHeart] = useState("loading");
-  const {currentUser, loading} = useAppSelector(state => state.users)
-  const dispatch = useAppDispatch()
+  const { currentUser, loading } = useAppSelector((state) => state.users);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchCurrentUser());
@@ -68,6 +69,9 @@ export default function Home() {
 
   useBackgroundColorObserver(setBgColor);
   UseGoBack();
+
+
+
   return (
     <div
       className={styles.main}
@@ -81,10 +85,6 @@ export default function Home() {
       <div
         className={styles.mainInner}
         style={{
-          backgroundImage: `
-          linear-gradient(to top, rgba(18, 31, 37, 0) 0%, rgba(18, 31, 37, 1) ${gradientValue}%),
-          url(/palas.png)
-        `,
           backgroundPosition: "right",
           backgroundSize: bgSize,
           backgroundRepeat: "repeat-y",

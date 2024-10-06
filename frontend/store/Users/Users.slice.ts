@@ -53,7 +53,10 @@ export const usersSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.currentUser = action.payload;
+        
+        localStorage.setItem('lives', action.payload.lives);
       })
+      
       .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message as string;

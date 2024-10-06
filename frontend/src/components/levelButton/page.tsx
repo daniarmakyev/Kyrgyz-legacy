@@ -28,7 +28,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({ numbers }) => {
     <div className="flex flex-col items-start gap-11">
       {numbers.map((number, index) => (
         <div key={index} className={getMarginClass(index)}>
-          <ButtonInner number={number} />
+          <ButtonInner level={number} />
         </div>
       ))}
     </div>

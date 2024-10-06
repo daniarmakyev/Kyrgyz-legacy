@@ -18,33 +18,45 @@ import {
   updateCurrentUser,
 } from "../../../../store/Users/Users.action";
 import i18n from "./../../../../path/i18n";
+import { decodeId } from "@/scripts/decoder";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
+export const WordHover = (soundUrl?: string) => {
+  if (soundUrl) {
+    const audio = new Audio(soundUrl);
+    audio.play().catch((error) => {
+      console.error("Error playing sound:", error);
+    });
+  }
+};
+
 const LevelPage = () => {
+  const lives = localStorage.getItem("lives");
   const [trueComparison, setTrueComparison] = useState<number[]>([]);
   const [userComparison, setUserComparison] = useState<number[]>([]);
   const [randomedWords, setRandomedWords] = useState<Word[]>([]);
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState<number>(0);
+  const [heart, setHeart] = useState<number | null>(lives ? parseInt(lives) : null);
+  
 
   const { words } = useAppSelector((state) => state.words);
   const { currentUser } = useAppSelector((state) => state.users);
-  const [heart, setHeart] = useState(0);
   const router = useRouter();
   const { level } = useParams();
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
 
-  
   useEffect(() => {
-    dispatch(fetchCurrentUser())
-    if (currentUser) {
+    dispatch(fetchCurrentUser());
+    if (currentUser && lives) {
       i18n.changeLanguage(currentUser.lang);
+      setHeart(parseInt(lives));
     }
   }, []);
-  
 
   UseGetWordsByLevel(level);
+
 
   const handleWordClick = (word: Word) => {
     setUserComparison((prev) =>
@@ -55,11 +67,7 @@ const LevelPage = () => {
   };
 
   useEffect(() => {
-    if (currentUser) {
-      setHeart(currentUser.lives);
-      i18n.changeLanguage(currentUser.lang);
-    }
-    if (currentUser?.lang) {
+    if (currentUser && lives) {
       i18n.changeLanguage(currentUser.lang);
     }
   }, []);
@@ -70,25 +78,15 @@ const LevelPage = () => {
       setProgress(newProgress);
     } else {
       setHeart((prevHeart) => {
-        const updatedHeart = prevHeart - 1;
-  
+        const updatedHeart = prevHeart! - 1;
         dispatch(updateCurrentUser({ lives: updatedHeart }));
-  
+        localStorage.setItem("lives", updatedHeart.toString());
+
         if (updatedHeart <= 0) {
           console.log("У пользователя закончились жизни");
         }
-  
-        return updatedHeart;
-      });
-    }
-  };
-  
 
-  const WordHover = (soundUrl?: string) => {
-    if (soundUrl) {
-      const audio = new Audio(soundUrl);
-      audio.play().catch((error) => {
-        console.error("Error playing sound:", error);
+        return updatedHeart;
       });
     }
   };
@@ -108,19 +106,18 @@ const LevelPage = () => {
 
   UseGoBack();
 
-  UseLifeCheker(heart);
+  UseLifeCheker(heart!);
 
   useEffect(() => {
     if (words && words.length > 0) {
       setTrueComparison((prevState) => [...new Set([words[0].wordId])]);
       setRandomedWords(UseRandom(words));
-      console.log(words);
     }
   }, [words]);
 
   return (
     <div className="bg-[#121F25] h-screen flex flex-col items-center self-center ms-auto me-auto">
-      <ProgressBar progress={3} heart={heart} />
+      <ProgressBar progress={3} heart={parseInt(lives!)} />
       {words && (
         <div className="flex gap-5 mt-auto">
           <span
