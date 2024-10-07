@@ -11,7 +11,8 @@ const ButtonInner: React.FC<ButtonInnerProps> = ({ level }) => {
 
   const handleClick = () => {
     const encodedLevel = encodeId(level); 
-    router.push(`/level/${encodedLevel}`);
+    const encodedProgress = encodeId(0); 
+    router.push(`/level/${encodedLevel}/${encodedProgress}`);
 };
 
 
