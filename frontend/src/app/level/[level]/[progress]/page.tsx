@@ -37,13 +37,26 @@ const LevelPage = () => {
   const [randomedWords, setRandomedWords] = useState<Word[]>([]);
   const [progressBar, setProgress] = useState<number>(0);
   const [heart, setHeart] = useState<number>(lives ? parseInt(lives) : 0);
-
+  const [isHovered, setIsHovered] = useState(false);
+  const [currentTranslation, setCurrentTranslation] = useState<string | null>(
+    null
+  );
   const { words } = useAppSelector((state) => state.words);
   const { currentUser } = useAppSelector((state) => state.users);
   const router = useRouter();
   const { level, progress } = useParams();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+
+  const handleMouseEnter = (word: Word) => {
+    setCurrentTranslation(getTranslation(word));
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setCurrentTranslation(null);
+  };
 
   useEffect(() => {
     dispatch(fetchCurrentUser());
@@ -133,17 +146,16 @@ const LevelPage = () => {
       const audio = new Audio(`${BASE_URL}/${word.manSound}`);
       await audio.play();
       await new Promise((resolve) => {
-        audio.onended = resolve; 
+        audio.onended = resolve;
       });
     }
   };
-  
 
   return (
     <div className="bg-[#121F25] h-screen flex flex-col items-center">
       <ProgressBar progress={progressBar} heart={heart} />
       {words && (
-        <div className="flex gap-5 mt-auto">
+        <div className="flex gap-5 mt-auto relative">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 94 73"
@@ -156,7 +168,6 @@ const LevelPage = () => {
               height: "100%",
               transform: "translate3d(0px, 0px, 0px)",
               contentVisibility: "visible",
-              
             }}
           >
             <g clipPath="url(#__lottie_element_1934)">
@@ -219,13 +230,22 @@ const LevelPage = () => {
               </g>
             </g>
           </svg>
-          <span
-            onClick={() => WordHover(`${BASE_URL}/${words[0].manSound}`)}
-            key={words[0].id}
-            className="cursor-pointer select-none"
-          >
-            {words[0].word}
-          </span>
+          {words.map((word) => (
+            <div className="relative" key={word.id}>
+              <span
+                className="cursor-pointer select-none"
+                onMouseEnter={() => handleMouseEnter(word)}
+                onMouseLeave={handleMouseLeave}
+              >
+                {word.word}
+              </span>
+              {isHovered && currentTranslation && (
+                <div className="absolute -bottom-9 left-0 text-base text-neutral-400 rounded shadow ">
+                  {currentTranslation}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       )}
       <div className="flex gap-3 flex-wrap max-w-96 items-center justify-center mt-40">
