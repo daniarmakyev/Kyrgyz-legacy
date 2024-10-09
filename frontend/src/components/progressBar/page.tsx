@@ -25,8 +25,8 @@ const ProgressBar = ({
         </Link>
         <div className="progress-bar w-[70vw] bg-neutral-400 rounded-lg relative max-h-5 h-5">
           <div
-            className="absolute bg-red-400 z-10 h-full rounded-lg transition-width duration-300" // Добавление класса для анимации
-            style={{ width: `${widthProg}%` }}
+            className="absolute bg-red-400 z-10 h-full rounded-lg transition-width duration-300 w-full" 
+            style={{ marginRight: `${widthProg}%`,maxWidth:`${widthProg}%` }}
           ></div>
         </div>
         <div className="flex items-center gap-1">

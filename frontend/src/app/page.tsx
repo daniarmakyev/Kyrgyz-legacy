@@ -13,7 +13,7 @@ export default function Home() {
   const [bgColor, setBgColor] = useState("#FC4E4D");
   const [gradientValue, setGradientValue] = useState(95);
   const [bgSize, setBgSize] = useState("50px");
-  const [heart, setHeart] = useState("loading");
+  const [heart, setHeart] = useState(" ");
   const { currentUser, loading } = useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
 
@@ -74,7 +74,7 @@ export default function Home() {
       style={{
         backgroundImage: `
         linear-gradient(to top, rgba(18, 31, 37, 0) 0%, rgba(18, 31, 37, 1) ${gradientValue}%),
-        url(./palas.png)`
+        url(./palas.png)`,
       }}
     >
       <div
@@ -86,7 +86,7 @@ export default function Home() {
           backgroundImage: `
           linear-gradient(to top, rgba(18, 31, 37, 0) 0%, rgba(18, 31, 37, 1) ${gradientValue}%),
           url(./palas.png)
-        `
+        `,
         }}
       >
         <div
@@ -103,7 +103,9 @@ export default function Home() {
           </div>
           <div className="flex align-middle self-center items-center gap-2">
             <Image src={"/heart.png"} alt="heart" width={35} height={30} />
-            <span>{loading ? "error" : heart}</span>
+            <span >
+              {loading ? " " : heart}
+            </span>
           </div>
         </div>
         <div

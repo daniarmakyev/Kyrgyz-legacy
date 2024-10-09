@@ -41,6 +41,8 @@ const LevelPage = () => {
   const [currentTranslation, setCurrentTranslation] = useState<string | null>(
     null
   );
+  const [activeWordId, setActiveWordId] = useState<number | null>(null);
+  const [hoveredWordId, setHoveredWordId] = useState<number | null>(null);
   const { words } = useAppSelector((state) => state.words);
   const { currentUser } = useAppSelector((state) => state.users);
   const router = useRouter();
@@ -51,9 +53,11 @@ const LevelPage = () => {
   const handleMouseEnter = (word: Word) => {
     setCurrentTranslation(getTranslation(word));
     setIsHovered(true);
+    setHoveredWordId(word.wordId);
   };
 
   const handleMouseLeave = () => {
+    setHoveredWordId(null);
     setIsHovered(false);
     setCurrentTranslation(null);
   };
@@ -66,9 +70,18 @@ const LevelPage = () => {
       const decodeProgress = decodeId(progress.toString());
       setProgress(Number(decodeProgress));
     }
+    setProgress(decodeId(progress.toString()));
   }, []);
 
   UseGetWordsByLevel(level);
+
+  const handleWordClickHover = (word: Word) => {
+    if (activeWordId === word.wordId) {
+      setActiveWordId(null);
+    } else {
+      setActiveWordId(word.wordId);
+    }
+  };
 
   const handleWordClick = (word: Word) => {
     setUserComparison((prev) =>
@@ -89,12 +102,18 @@ const LevelPage = () => {
       const newProgress = (() => {
         switch (progressBar) {
           case 0:
-            return 25;
-          case 25:
-            return 50;
-          case 50:
+            return 15;
+          case 15:
+            return 30;
+          case 30:
+            return 45;
+          case 45:
+            return 60;
+          case 60:
             return 75;
           case 75:
+            return 95;
+          case 95:
             return 100;
           default:
             return progressBar;
@@ -233,17 +252,19 @@ const LevelPage = () => {
           {words.map((word) => (
             <div className="relative" key={word.id}>
               <span
-                className="cursor-pointer select-none"
+                className="cursor-pointer select-none underline decoration-dotted decoration-4"
                 onMouseEnter={() => handleMouseEnter(word)}
                 onMouseLeave={handleMouseLeave}
+                onClick={() => handleWordClickHover(word)}
               >
                 {word.word}
               </span>
-              {isHovered && currentTranslation && (
-                <div className="absolute -bottom-9 left-0 text-base text-neutral-400 rounded shadow ">
-                  {currentTranslation}
-                </div>
-              )}
+              {activeWordId === word.wordId && hoveredWordId === word.wordId &&
+                currentTranslation && (
+                  <div className="absolute -bottom-9 left-0 text-base text-neutral-400 rounded shadow">
+                    {currentTranslation}
+                  </div>
+                )}
             </div>
           ))}
         </div>
