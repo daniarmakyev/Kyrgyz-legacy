@@ -30,4 +30,4 @@ Kyrgyz Legacy - это приложение, аналогичное Duolingo, д
 - react-i18next
 - Tailwind CSS
 
-### Версия 0.01
+### Версия 0.0.1
