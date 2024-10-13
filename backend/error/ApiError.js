@@ -13,4 +13,4 @@ class ApiError {
     static forbiden(massege){
         return new ApiError(403, massege)
     }
-}
+} 

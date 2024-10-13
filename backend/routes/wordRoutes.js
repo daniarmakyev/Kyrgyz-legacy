@@ -24,4 +24,3 @@ router.get('/level/:level', authenticateToken, wordController.getWordByLevel);
 router.delete('/deleteWord/:id', authenticateToken, wordController.deleteWord); 
 
 module.exports = router;
-

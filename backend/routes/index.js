@@ -6,4 +6,3 @@ const router = new Router();
 router.use('/users', userRouter);
 router.use('/words', wordRouter)
 module.exports = router;
-
