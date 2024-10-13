@@ -9,7 +9,7 @@ export const UseGetWordsByLevel: any = (level: string) => {
   useEffect(() => {
     if (level) {
         const id = decodeId(level.toString())
-      dispatch(fetchWordByLevel(id + ""));
+      dispatch(fetchWordByLevel(id + ""));  
     }else{
       console.log(level);
       
