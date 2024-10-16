@@ -12,23 +12,21 @@ import { UseGetWordsByLevel } from "@/scripts/UseGetWordsByLevel";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 interface LevelInnerProps {
-    progressBar: number;
-    setProgress: (progress: number) => void;
-    heart: number;
-    setHeart: (heart: number) => void;
-    currentUser: any;
-    level: string;
-    words: Word[];
+  progressBar: number;
+  setProgress: (progress: number) => void;
+  setHeart: (heart: number) => void;
+  currentUser: any;
+  level: string;
+  words: Word[];
 }
 
 const LevelInner: React.FC<LevelInnerProps> = ({
   words,
   progressBar,
   setProgress,
-  heart,
   setHeart,
   currentUser,
-  level
+  level,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [currentTranslation, setCurrentTranslation] = useState<string | null>(
@@ -41,9 +39,8 @@ const LevelInner: React.FC<LevelInnerProps> = ({
   const [userComparison, setUserComparison] = useState<number[]>([]);
   const router = useRouter();
   const { t } = useTranslation();
-  
-  const dispatch = useAppDispatch()
 
+  const dispatch = useAppDispatch();
 
   const playAllSounds = async () => {
     for (const word of words!) {
@@ -53,6 +50,17 @@ const LevelInner: React.FC<LevelInnerProps> = ({
         audio.onended = resolve;
       });
     }
+  };
+
+  const wordIdsByProgress: { [key: number]: number[] } = {
+    0: [1],
+    15: [1, 3],
+    30: [2, 3],
+    45: [1],
+    60: [1, 2],
+    75: [3],
+    95: [2],
+    100: [1],
   };
 
   const handelCompare = async () => {
@@ -81,17 +89,17 @@ const LevelInner: React.FC<LevelInnerProps> = ({
       setProgress(newProgress);
       router.push(`/level/${level}/${codedProgress}`);
     } else {
-        //@ts-ignore
-        setHeart((prevHeart) => {
-            const updatedHeart = prevHeart! - 1;
-            dispatch(updateCurrentUser({ lives: updatedHeart }));
-            localStorage.setItem("lives", updatedHeart.toString());
-    
-            if (updatedHeart <= 0) {
-              console.log("У пользователя закончились жизни");
-            }
-    
-            return updatedHeart;
+      //@ts-ignore
+      setHeart((prevHeart) => {
+        const updatedHeart = prevHeart! - 1;
+        dispatch(updateCurrentUser({ lives: updatedHeart }));
+        localStorage.setItem("lives", updatedHeart.toString());
+
+        if (updatedHeart <= 0) {
+          console.log("У пользователя закончились жизни");
+        }
+
+        return updatedHeart;
       });
     }
   };
@@ -144,11 +152,11 @@ const LevelInner: React.FC<LevelInnerProps> = ({
   };
 
   useEffect(() => {
-    if(words){
-     console.log(words);
+    if (words) {
+      console.log(words);
     }
     console.log(words);
-   },[])
+  }, []);
 
   return (
     <>
@@ -228,25 +236,22 @@ const LevelInner: React.FC<LevelInnerProps> = ({
               </g>
             </g>
           </svg>
-          {words.map((word) => (
-            <div className="relative" key={word.id}>
-              <span
-                className="cursor-pointer select-none underline decoration-dotted decoration-4"
-                onMouseEnter={() => handleMouseEnter(word)}
-                onMouseLeave={handleMouseLeave}
-                onClick={() => handleWordClickHover(word)}
-              >
-                {word.word}
-              </span>
-              {activeWordId === word.wordId &&
-                hoveredWordId === word.wordId &&
-                currentTranslation && (
-                  <div className="absolute -bottom-9 left-0 text-base text-neutral-400 rounded shadow">
-                    {currentTranslation}
-                  </div>
-                )}
+          {progressBar in wordIdsByProgress && words && words.length > 0 && (
+            <div className="flex gap-5 mt-auto relative">
+              {words
+                .filter((word) =>
+                  wordIdsByProgress[progressBar].includes(word.wordId)
+                )
+                .map((word) => (
+                  <span
+                    key={word.id}
+                    className="cursor-pointer select-none underline decoration-dotted decoration-4"
+                  >
+                    {word.word}
+                  </span>
+                ))}
             </div>
-          ))}
+          )}
         </div>
       )}
       <div className="flex gap-3 flex-wrap max-w-96 items-center justify-center mt-40">

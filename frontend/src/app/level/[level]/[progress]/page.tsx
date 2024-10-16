@@ -22,7 +22,7 @@ export const WordHover = (soundUrl?: string) => {
 
 const LevelPage = () => {
   const { level } = useParams();
-  const lives = localStorage.getItem("lives");
+  let lives: string | null = null;
   const { words } = useAppSelector((item) => item.words);
   UseGetWordsByLevel(level);
   const [progressBar, setProgress] = useState<number>(0);
@@ -33,10 +33,12 @@ const LevelPage = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    const lives = localStorage.getItem("lives");
+    setHeart(lives ? parseInt(lives) : 0);
+    
     dispatch(fetchCurrentUser());
-    if (currentUser && lives && progress !== undefined) {
+    if (currentUser && progress !== undefined) {
       i18n.changeLanguage(currentUser.lang);
-      setHeart(parseInt(lives));
       const decodeProgress = decodeId(progress.toString());
       setProgress(Number(decodeProgress));
     }
@@ -54,7 +56,6 @@ const LevelPage = () => {
           level={level.toString()}
           progressBar={progressBar}
           setProgress={setProgress}
-          heart={heart}
           setHeart={setHeart}
           currentUser={currentUser}
         />
