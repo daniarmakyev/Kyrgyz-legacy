@@ -64,6 +64,10 @@ const LevelInner: React.FC<LevelInnerProps> = ({
   };
 
   const handelCompare = async () => {
+  console.log(userComparison + "dada");
+  console.log(trueComparison + "ouou");
+  
+  
     if (UseComparison(userComparison, trueComparison)) {
       const newProgress = (() => {
         switch (progressBar) {
@@ -104,12 +108,7 @@ const LevelInner: React.FC<LevelInnerProps> = ({
     }
   };
 
-  useEffect(() => {
-    if (words && words.length > 0) {
-      setTrueComparison([words[0].wordId]);
-      setRandomedWords(UseRandom(words));
-    }
-  }, []);
+
 
   const getTranslation = (item: Word) => {
     switch (currentUser?.lang) {
@@ -157,7 +156,14 @@ const LevelInner: React.FC<LevelInnerProps> = ({
     }
     console.log(words);
   }, []);
-
+  useEffect(() => {
+    if (words && words.length > 0) {
+      console.log(progressBar);
+      
+      setTrueComparison(wordIdsByProgress[progressBar]);
+      setRandomedWords(UseRandom(words));
+    }
+  }, [progressBar]);
   return (
     <>
       {words && (
