@@ -73,7 +73,7 @@ const LoginPage = () => {
         <button type="submit" disabled={loading} className={style.authBtn}>
           Sign In
         </button>
-        <Link href={"/auth/"} className="ms-auto me-auto">Don't have an account?</Link>
+        <Link href={"/auth/"} className="ms-auto me-auto">Don&apos;t have an account?</Link>
         {errors.length > 0 && (
           <div className="error-container">
             <ul className="absolute left-10">

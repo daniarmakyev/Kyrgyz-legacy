@@ -8,8 +8,7 @@ const ProgressBar = ({
   progress: number;
   heart: number;
 }) => {
-  let widthProg = Number(progress);
-
+  const widthProg = Number(progress);
   return (
     <div className="max-w-3xl ms-auto me-auto pt-9">
       <div className="max-w-[90vw] flex justify-between ms-auto me-auto self-center items-center gap-2">

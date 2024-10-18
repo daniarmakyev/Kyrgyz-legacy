@@ -17,6 +17,7 @@ interface LevelInnerProps {
   setHeart: (heart: number) => void;
   currentUser: any;
   level: string;
+  heart:number;
   words: Word[];
 }
 
@@ -25,6 +26,7 @@ const LevelInner: React.FC<LevelInnerProps> = ({
   progressBar,
   setProgress,
   setHeart,
+  heart,
   currentUser,
   level,
 }) => {
@@ -93,18 +95,16 @@ const LevelInner: React.FC<LevelInnerProps> = ({
       setProgress(newProgress);
       router.push(`/level/${level}/${codedProgress}`);
     } else {
-      //@ts-ignore
-      setHeart((prevHeart) => {
-        const updatedHeart = prevHeart! - 1;
-        dispatch(updateCurrentUser({ lives: updatedHeart }));
-        localStorage.setItem("lives", updatedHeart.toString());
-
-        if (updatedHeart <= 0) {
-          console.log("У пользователя закончились жизни");
-        }
-
-        return updatedHeart;
-      });
+      const updatedHeart = heart - 1; // Уменьшаем на 1
+      setHeart(updatedHeart); // Устанавливаем новое значение
+      dispatch(updateCurrentUser({ lives: updatedHeart }));
+      localStorage.setItem("lives", updatedHeart.toString());
+      
+      if (updatedHeart <= 0) {
+        console.log("У пользователя закончились жизни");
+      }
+      
+      
     }
   };
 

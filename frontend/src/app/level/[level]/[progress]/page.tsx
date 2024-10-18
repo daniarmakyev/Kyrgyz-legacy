@@ -11,18 +11,11 @@ import { decodeId, encodeId } from "@/scripts/decoder";
 import LevelInner from "@/components/levelInner/page";
 import { UseGetWordsByLevel } from "@/scripts/UseGetWordsByLevel";
 
-export const WordHover = (soundUrl?: string) => {
-  if (soundUrl) {
-    const audio = new Audio(soundUrl);
-    audio.play().catch((error) => {
-      console.error("Error playing sound:", error);
-    });
-  }
-};
+
 
 const LevelPage = () => {
   const { level } = useParams();
-  let lives: string | null = null;
+  const lives: string | null = null;
   const { words } = useAppSelector((item) => item.words);
   UseGetWordsByLevel(level);
   const [progressBar, setProgress] = useState<number>(0);
@@ -57,6 +50,7 @@ const LevelPage = () => {
           progressBar={progressBar}
           setProgress={setProgress}
           setHeart={setHeart}
+          heart={heart}
           currentUser={currentUser}
         />
       )}
