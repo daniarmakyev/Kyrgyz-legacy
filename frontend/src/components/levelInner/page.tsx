@@ -17,6 +17,7 @@ interface LevelInnerProps {
   setHeart: (heart: number) => void;
   currentUser: any;
   level: string;
+  heart:number;
   words: Word[];
 }
 
@@ -25,6 +26,7 @@ const LevelInner: React.FC<LevelInnerProps> = ({
   progressBar,
   setProgress,
   setHeart,
+  heart,
   currentUser,
   level,
 }) => {
@@ -64,6 +66,10 @@ const LevelInner: React.FC<LevelInnerProps> = ({
   };
 
   const handelCompare = async () => {
+  console.log(userComparison + "dada");
+  console.log(trueComparison + "ouou");
+  
+  
     if (UseComparison(userComparison, trueComparison)) {
       const newProgress = (() => {
         switch (progressBar) {
@@ -89,27 +95,20 @@ const LevelInner: React.FC<LevelInnerProps> = ({
       setProgress(newProgress);
       router.push(`/level/${level}/${codedProgress}`);
     } else {
-      //@ts-ignore
-      setHeart((prevHeart) => {
-        const updatedHeart = prevHeart! - 1;
-        dispatch(updateCurrentUser({ lives: updatedHeart }));
-        localStorage.setItem("lives", updatedHeart.toString());
-
-        if (updatedHeart <= 0) {
-          console.log("У пользователя закончились жизни");
-        }
-
-        return updatedHeart;
-      });
+      const updatedHeart = heart - 1; // Уменьшаем на 1
+      setHeart(updatedHeart); // Устанавливаем новое значение
+      dispatch(updateCurrentUser({ lives: updatedHeart }));
+      localStorage.setItem("lives", updatedHeart.toString());
+      
+      if (updatedHeart <= 0) {
+        console.log("У пользователя закончились жизни");
+      }
+      
+      
     }
   };
 
-  useEffect(() => {
-    if (words && words.length > 0) {
-      setTrueComparison([words[0].wordId]);
-      setRandomedWords(UseRandom(words));
-    }
-  }, []);
+
 
   const getTranslation = (item: Word) => {
     switch (currentUser?.lang) {
@@ -157,7 +156,14 @@ const LevelInner: React.FC<LevelInnerProps> = ({
     }
     console.log(words);
   }, []);
-
+  useEffect(() => {
+    if (words && words.length > 0) {
+      console.log(progressBar);
+      
+      setTrueComparison(wordIdsByProgress[progressBar]);
+      setRandomedWords(UseRandom(words));
+    }
+  }, [progressBar]);
   return (
     <>
       {words && (
