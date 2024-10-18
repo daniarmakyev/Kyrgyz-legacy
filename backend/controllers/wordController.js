@@ -8,19 +8,6 @@ class WordController {
     async addWord(req, res) {
         const transaction = await sequelize.transaction();
         try {
-            const token = req.headers.authorization?.split(' ')[1];
-
-            if (!token) {
-                return res.status(401).json({ error: 'Authorization token is required' });
-            }
-
-            // Проверка токена
-            jwt.verify(token, JWT_SECRET, (err) => {
-                if (err) {
-                    return res.status(403).json({ error: 'Invalid token' });
-                }
-            });
-
             const {
                 wordId,
                 word,
