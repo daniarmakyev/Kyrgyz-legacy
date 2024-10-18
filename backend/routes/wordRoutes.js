@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Добавляем маршруты
-router.post('/addWord', authenticateToken, upload.fields([{ name: 'manSound' }, { name: 'womanSound' }]), wordController.addWord); 
+router.post('/addWord', upload.fields([{ name: 'manSound' }, { name: 'womanSound' }]), wordController.addWord); 
 router.get('/getWordById/:id', authenticateToken, wordController.getWordById); 
 router.get('/level/:level', authenticateToken, wordController.getWordByLevel); 
 router.delete('/deleteWord/:id', authenticateToken, wordController.deleteWord); 
