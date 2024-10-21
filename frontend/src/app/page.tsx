@@ -9,6 +9,7 @@ import { useBackgroundColorObserver } from "@/scripts/useBackgroundColorObserver
 import { UseGoBack } from "@/scripts/UseGoBack";
 
 export default function Home() {
+  UseGoBack();
   const levelsArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   const [bgColor, setBgColor] = useState("#FC4E4D");
   const [gradientValue, setGradientValue] = useState(95);
@@ -17,8 +18,13 @@ export default function Home() {
   const { currentUser, loading } = useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
 
+
+
   useEffect(() => {
-    dispatch(fetchCurrentUser());
+    const token = localStorage.getItem("tokens");
+    if (token) {
+      dispatch(fetchCurrentUser());
+    }
   }, [dispatch]);
 
   useEffect(() => {
@@ -66,15 +72,18 @@ export default function Home() {
   }, []);
 
   useBackgroundColorObserver(setBgColor);
-  UseGoBack();
 
   return (
     <div
       className={styles.main}
       style={{
+        backgroundPosition: "left",
+        backgroundSize: bgSize,
+        backgroundRepeat: "repeat-y",
         backgroundImage: `
-        linear-gradient(to top, rgba(18, 31, 37, 0) 0%, rgba(18, 31, 37, 1) ${gradientValue}%),
-        url(./palas.png)`,
+          linear-gradient(to top, rgba(18, 31, 37, 0) 0%, rgba(18, 31, 37, 1) ${gradientValue}%),
+          url(./palas.png)
+        `,
       }}
     >
       <div
@@ -84,9 +93,9 @@ export default function Home() {
           backgroundSize: bgSize,
           backgroundRepeat: "repeat-y",
           backgroundImage: `
-          linear-gradient(to top, rgba(18, 31, 37, 0) 0%, rgba(18, 31, 37, 1) ${gradientValue}%),
-          url(./palas.png)
-        `,
+            linear-gradient(to top, rgba(18, 31, 37, 0) 0%, rgba(18, 31, 37, 1) ${gradientValue}%),
+            url(./palasR.png)
+          `,
         }}
       >
         <div
@@ -103,9 +112,7 @@ export default function Home() {
           </div>
           <div className="flex align-middle self-center items-center gap-2">
             <Image src={"/heart.png"} alt="heart" width={35} height={30} />
-            <span >
-              {loading ? " " : heart}
-            </span>
+            <span>{loading ? " " : heart}</span>
           </div>
         </div>
         <div

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { logout } from "../store/Users/Users.slice";
 
 export const $axios = axios.create({
-  baseURL: "https://kyrgyz-legacy-backend-production.up.railway.app/api",
+  baseURL: "http://localhost:8080/api",
 });
 
 function HandleLogout() {

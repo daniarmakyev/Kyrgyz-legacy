@@ -24,7 +24,7 @@ export const loginUser = createAsyncThunk(
   "users/loginUser",
   async (data: LoginValues) => {
     try {
-      const res = await axios.post("https://kyrgyz-legacy-backend-production.up.railway.app/api/users/login", data, {
+      const res = await axios.post("http://localhost:8080/api/users/login", data, {
         headers: {
           'Content-Type': 'application/json',
         },
