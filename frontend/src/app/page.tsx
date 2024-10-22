@@ -7,6 +7,7 @@ import { fetchCurrentUser } from "../../store/Users/Users.action";
 import LevelButton from "@/components/levelButton/page";
 import { useBackgroundColorObserver } from "@/scripts/useBackgroundColorObserver";
 import { UseGoBack } from "@/scripts/UseGoBack";
+import { resetWordsState } from "../../store/Words/Words.slice";
 
 export default function Home() {
   UseGoBack();
@@ -18,13 +19,15 @@ export default function Home() {
   const { currentUser, loading } = useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
 
-
+  
 
   useEffect(() => {
+    dispatch(resetWordsState());
     const token = localStorage.getItem("tokens");
     if (token) {
       dispatch(fetchCurrentUser());
     }
+
   }, [dispatch]);
 
   useEffect(() => {

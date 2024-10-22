@@ -11,7 +11,13 @@ const INIT_STATE: StatesTypeWords = {
 export const wordsSlice = createSlice({
   name: "words",
   initialState: INIT_STATE,
-  reducers: {},
+  reducers: {
+    resetWordsState: (state) => {
+      state.error = INIT_STATE.error;
+      state.loading = INIT_STATE.loading;
+      state.words = INIT_STATE.words;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchWordByLevel.pending, (state) => {
@@ -28,3 +34,5 @@ export const wordsSlice = createSlice({
       });
   },
 });
+
+export const { resetWordsState } = wordsSlice.actions;

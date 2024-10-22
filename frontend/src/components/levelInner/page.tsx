@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector, Word } from "../../../helpers/types";
 import { updateCurrentUser } from "../../../store/Users/Users.action";
 import { UseGetWordsByLevel } from "@/scripts/UseGetWordsByLevel";
+import style from "../../app/mainPage.module.css"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -239,10 +240,10 @@ const LevelInner: React.FC<LevelInnerProps> = ({
           </svg>
           {progressBar in wordIdsByProgress && words && words.length > 0 && (
             <div className="flex gap-5 mt-auto relative">
-              {words.map((word) => (
+              {words.filter((word) => trueComparison.includes(word.wordId)).map((word) => (
                 <div className="relative" key={word.id}>
                   <span
-                    className="cursor-pointer select-none underline decoration-dotted decoration-4"
+                    className={` cursor-pointer select-none underline decoration-dotted decoration-4 ${style.skipUnderLine}`}
                     onMouseEnter={() => handleMouseEnter(word)}
                     onMouseLeave={handleMouseLeave}
                     onClick={() => handleWordClickHover(word)}

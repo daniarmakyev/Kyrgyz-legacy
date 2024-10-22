@@ -3,8 +3,10 @@ import { useAppDispatch } from "./types";
 import { useRouter } from "next/navigation";
 import { logout } from "../store/Users/Users.slice";
 
+const api = process.env.NEXT_PUBLIC_API
+console.log(api);
 export const $axios = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: `${api}/api`,
 });
 
 function HandleLogout() {
