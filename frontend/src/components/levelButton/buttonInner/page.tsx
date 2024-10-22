@@ -1,4 +1,6 @@
+
 import { encodeId } from "@/scripts/decoder";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -53,10 +55,12 @@ const ButtonInner: React.FC<ButtonInnerProps> = ({ level }) => {
         className="opacity-20"
       >
       </svg>
-      <img
+      <Image
         src="https://d35aaqx5ub95lt.cloudfront.net/images/path/icons/bfa591f6854b4de08e1656b3e8ca084f.svg"
         alt="subimo"
-        className="absolute top-2 left-3 w-11"
+        className="absolute top-2 left-3 "
+        width={44}
+        height={44}
       />
     </button>
   );

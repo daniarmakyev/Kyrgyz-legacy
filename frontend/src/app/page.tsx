@@ -108,10 +108,11 @@ export default function Home() {
               className="rounded-lg"
               width={60}
               height={60}
+              priority
             />
           </div>
           <div className="flex align-middle self-center items-center gap-2">
-            <Image src={"/heart.png"} alt="heart" width={35} height={30} />
+            <Image src={"/heart.png"} alt="heart" width={35} height={30}  />
             <span>{loading ? " " : heart}</span>
           </div>
         </div>
