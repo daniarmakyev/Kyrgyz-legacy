@@ -3,6 +3,8 @@ import { RegisterValues, LoginValues, User } from "../../helpers/types";
 import { $axios } from "../../helpers/axios";
 import axios from "axios";
 
+const api = process.env.NEXT_PUBLIC_API
+
 export const registerUser = createAsyncThunk(
   "users/registerUser",
   async ({ data }: { data: RegisterValues }) => {
@@ -24,7 +26,7 @@ export const loginUser = createAsyncThunk(
   "users/loginUser",
   async (data: LoginValues) => {
     try {
-      const res = await axios.post("https://kyrgyz-legacy-backend-production.up.railway.app/api/users/login", data, {
+      const res = await axios.post(`${api}/api/users/login`, data, {
         headers: {
           'Content-Type': 'application/json',
         },

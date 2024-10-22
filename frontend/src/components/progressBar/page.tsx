@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 const ProgressBar = ({
@@ -8,6 +7,7 @@ const ProgressBar = ({
   progress: number;
   heart: number;
 }) => {
+  const progressSteps = [15, 30, 45, 60, 75, 90, 100];
   const widthProg = Number(progress);
   return (
     <div className="max-w-3xl ms-auto me-auto pt-9">
@@ -21,12 +21,18 @@ const ProgressBar = ({
             width={20}
             height={20}
           />
-        </Link> 
+        </Link>
         <div className="progress-bar w-[70vw] bg-neutral-400 rounded-lg relative max-h-5 h-5">
-          <div
-            className="absolute bg-red-400 z-10 h-full rounded-lg transition-width duration-300 w-full" 
-            style={{ marginRight: `${widthProg}%`,maxWidth:`${widthProg}%` }}
-          ></div>
+          {progressSteps.map(
+            (step, index) =>
+              widthProg >= step && (
+                <div
+                  key={index}
+                  className="absolute bg-red-400 z-10 h-full rounded-lg transition-all duration-300"
+                  style={{ width: `${step}%` }}
+                ></div>
+              )
+          )}
         </div>
         <div className="flex items-center gap-1">
           <Image

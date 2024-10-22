@@ -57,6 +57,7 @@ const AuthPage = () => {
     });
   };
 
+
   useEffect(() => {
     if (error) {
       setErrors((prevErrors) => [...prevErrors, error]);
@@ -123,11 +124,9 @@ const AuthPage = () => {
         </Link>
         {errors.length > 0 && (
           <div className="error-containe mb-36">
-            <ul className="absolute">
-              {errors.map((error, index) => (
-                <li className="mb-1 text-red-500 font-bold text-md ms-auto me-auto" key={index}>
-                  {error}
-                </li>
+            <ul className="absolute text-center">
+            {errors.map((error, index) => (
+                <li className="mb-1 text-red-500 font-bold ms-auto text-center" key={index}>{error}</li>
               ))}
             </ul>
           </div>

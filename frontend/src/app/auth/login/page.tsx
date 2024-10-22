@@ -43,7 +43,6 @@ const LoginPage = () => {
       console.error("Login Error:", error); 
     }
     if (user) {
-
       router.push('/');
     }
   }, [error,user]);
@@ -77,8 +76,8 @@ const LoginPage = () => {
         {errors.length > 0 && (
           <div className="error-container">
             <ul className="absolute left-10">
-              {errors.map((error, index) => (
-                <li className="mb-1 text-red-500 font-bold ms-auto" key={index}>{error}</li>
+            {errors.map((error, index) => (
+                <li className="mb-1 text-red-500 font-bold ms-auto text-center" key={index}>{error}</li>
               ))}
             </ul>
           </div>

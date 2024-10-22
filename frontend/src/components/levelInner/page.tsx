@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector, Word } from "../../../helpers/types";
 import { updateCurrentUser } from "../../../store/Users/Users.action";
 import { UseGetWordsByLevel } from "@/scripts/UseGetWordsByLevel";
+import style from "../../app/mainPage.module.css"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -17,7 +18,7 @@ interface LevelInnerProps {
   setHeart: (heart: number) => void;
   currentUser: any;
   level: string;
-  heart:number;
+  heart: number;
   words: Word[];
 }
 
@@ -66,10 +67,9 @@ const LevelInner: React.FC<LevelInnerProps> = ({
   };
 
   const handelCompare = async () => {
-  console.log(userComparison + "dada");
-  console.log(trueComparison + "ouou");
-  
-  
+    console.log(userComparison + "dada");
+    console.log(trueComparison + "ouou");
+
     if (UseComparison(userComparison, trueComparison)) {
       const newProgress = (() => {
         switch (progressBar) {
@@ -99,16 +99,12 @@ const LevelInner: React.FC<LevelInnerProps> = ({
       setHeart(updatedHeart); // Устанавливаем новое значение
       dispatch(updateCurrentUser({ lives: updatedHeart }));
       localStorage.setItem("lives", updatedHeart.toString());
-      
+
       if (updatedHeart <= 0) {
         console.log("У пользователя закончились жизни");
       }
-      
-      
     }
   };
-
-
 
   const getTranslation = (item: Word) => {
     switch (currentUser?.lang) {
@@ -159,7 +155,7 @@ const LevelInner: React.FC<LevelInnerProps> = ({
   useEffect(() => {
     if (words && words.length > 0) {
       console.log(progressBar);
-      
+
       setTrueComparison(wordIdsByProgress[progressBar]);
       setRandomedWords(UseRandom(words));
     }
@@ -244,18 +240,25 @@ const LevelInner: React.FC<LevelInnerProps> = ({
           </svg>
           {progressBar in wordIdsByProgress && words && words.length > 0 && (
             <div className="flex gap-5 mt-auto relative">
-              {words
-                .filter((word) =>
-                  wordIdsByProgress[progressBar].includes(word.wordId)
-                )
-                .map((word) => (
+              {words.filter((word) => trueComparison.includes(word.wordId)).map((word) => (
+                <div className="relative" key={word.id}>
                   <span
-                    key={word.id}
-                    className="cursor-pointer select-none underline decoration-dotted decoration-4"
+                    className={` cursor-pointer select-none underline decoration-dotted decoration-4 ${style.skipUnderLine}`}
+                    onMouseEnter={() => handleMouseEnter(word)}
+                    onMouseLeave={handleMouseLeave}
+                    onClick={() => handleWordClickHover(word)}
                   >
                     {word.word}
                   </span>
-                ))}
+                  {activeWordId === word.wordId &&
+                    hoveredWordId === word.wordId &&
+                    currentTranslation && (
+                      <div className="absolute -bottom-9 left-0 text-base text-neutral-400 rounded shadow">
+                        {currentTranslation}
+                      </div>
+                    )}
+                </div>
+              ))}
             </div>
           )}
         </div>
