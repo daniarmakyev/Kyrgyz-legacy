@@ -7,24 +7,23 @@ const PORT = process.env.PORT || 8080;
 const router = require('./routes/index');
 const cron = require('node-cron');
 const {User} = require('./models/models')
+const { Op } = require('sequelize');
+
 
 const app = express();
-
 const restoreUserLives = async () => {
     try {
-        const allUsers = await User.findAll();
+        const [numberOfAffectedRows] = await User.update(
+            { lives: sequelize.literal('lives + 1') },
+            { where: { lives: { [Op.lt]: 5 } } }
+        );
 
-        for (const user of allUsers) {
-            if (user.lives < 5) {
-                user.lives += 1;
-                await user.save();
-                console.log(`Restored life for user: ${user.id}, new lives: ${user.lives}`);
-            }
-        }
+        console.log(`Restored lives for ${numberOfAffectedRows} users.`);
     } catch (error) {
         console.error('Error restoring lives:', error);
     }
 };
+
 
 cron.schedule('*/15 * * * * *', () => {
     console.log('Running restoreUserLives task');
