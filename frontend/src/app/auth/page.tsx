@@ -52,7 +52,6 @@ const AuthPage = () => {
         setLang("ru");
         setErrors([]);
         setSuccessMessage("You have successfully registered!");
-        router.push('/auth/login')
       }
     });
   };

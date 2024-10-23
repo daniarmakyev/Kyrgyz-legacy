@@ -14,9 +14,10 @@ export const usersSlice = createSlice({
   initialState: INIT_STATE,
   reducers: {
     logout(state) {
-      state.user = null;
-      state.currentUser = null;
-      state.error = null;
+      state.user = INIT_STATE.user;
+      state.currentUser = INIT_STATE.currentUser;
+      state.error = INIT_STATE.error;
+      state.loading = INIT_STATE.loading;
       localStorage.removeItem("tokens");
     },
   },

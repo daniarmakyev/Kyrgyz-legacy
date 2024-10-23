@@ -9,27 +9,36 @@ import { fetchCurrentUser } from "../../../../../store/Users/Users.action";
 import i18n from "../../../../../path/i18n";
 import { decodeId, encodeId } from "@/scripts/decoder";
 import LevelInner from "@/components/levelInner/page";
-import { UseGetWordsByLevel } from "@/scripts/UseGetWordsByLevel";
-
-
+import { fetchWordByLevel } from "../../../../../store/Words/Words.action";
 
 const LevelPage = () => {
   const { level } = useParams();
   const lives: string | null = null;
   const { words } = useAppSelector((item) => item.words);
-  UseGetWordsByLevel(level);
   const [progressBar, setProgress] = useState<number>(0);
   const [heart, setHeart] = useState<number>(lives ? parseInt(lives) : 0);
   const { currentUser } = useAppSelector((state) => state.users);
   const { progress } = useParams();
-
+  const token = localStorage.getItem("tokens");
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (level) {
+      const id = decodeId(level.toString());
+      if (token) {
+        dispatch(fetchWordByLevel(id + ""));
+      }
+    } else {
+      console.log(level);
+    }
+  }, [level, dispatch]);
 
   useEffect(() => {
     const lives = localStorage.getItem("lives");
     setHeart(lives ? parseInt(lives) : 0);
-    
-    dispatch(fetchCurrentUser());
+    if (token) {
+      dispatch(fetchCurrentUser());
+    }
     if (currentUser && progress !== undefined) {
       i18n.changeLanguage(currentUser.lang);
       const decodeProgress = decodeId(progress.toString());
