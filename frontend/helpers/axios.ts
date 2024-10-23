@@ -3,20 +3,20 @@ import { useAppDispatch } from "./types";
 import { useRouter } from "next/navigation";
 import { logout } from "../store/Users/Users.slice";
 
+
+function HandleLogout() {
+  console.log("Logging out due to token expiration");
+  localStorage.removeItem("tokens");
+  const dispatch = useAppDispatch();
+  dispatch(logout());
+}
+
 const api = process.env.NEXT_PUBLIC_API
 console.log(api);
 export const $axios = axios.create({
   baseURL: `${api}/api`,
 });
 
-function HandleLogout() {
-  console.log("Logging out due to token expiration");
-
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-  dispatch(logout());
-  router.push('/auth');
-}
 
 $axios.interceptors.request.use((config) => {
   const tokens = JSON.parse(localStorage.getItem("tokens") as string);
