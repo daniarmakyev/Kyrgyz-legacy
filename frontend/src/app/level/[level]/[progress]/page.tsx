@@ -22,29 +22,30 @@ const LevelPage = () => {
   const token = localStorage.getItem("tokens");
   const dispatch = useAppDispatch();
 
-  if (token) {
-    useEffect(() => {
-      if (level) {
-        const id = decodeId(level.toString());
+  useEffect(() => {
+    if (level) {
+      const id = decodeId(level.toString());
+      if (token) {
         dispatch(fetchWordByLevel(id + ""));
-      } else {
-        console.log(level);
       }
-    }, [level, dispatch]);
- 
+    } else {
+      console.log(level);
+    }
+  }, [level, dispatch]);
 
   useEffect(() => {
     const lives = localStorage.getItem("lives");
     setHeart(lives ? parseInt(lives) : 0);
-
-    dispatch(fetchCurrentUser());
+    if (token) {
+      dispatch(fetchCurrentUser());
+    }
     if (currentUser && progress !== undefined) {
       i18n.changeLanguage(currentUser.lang);
       const decodeProgress = decodeId(progress.toString());
       setProgress(Number(decodeProgress));
     }
   }, []);
-}
+
   UseGoBack();
   UseLifeCheker(heart);
 

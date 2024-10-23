@@ -7,7 +7,6 @@ import React, { use, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector, Word } from "../../../helpers/types";
 import { updateCurrentUser } from "../../../store/Users/Users.action";
-import { UseGetWordsByLevel } from "@/scripts/UseGetWordsByLevel";
 import style from "../../app/mainPage.module.css"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
