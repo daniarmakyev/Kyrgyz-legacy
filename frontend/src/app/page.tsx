@@ -19,15 +19,12 @@ export default function Home() {
   const { currentUser, loading } = useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
 
-  
-
   useEffect(() => {
     dispatch(resetWordsState());
     const token = localStorage.getItem("tokens");
     if (token) {
       dispatch(fetchCurrentUser());
     }
-
   }, [dispatch]);
 
   useEffect(() => {
@@ -115,14 +112,25 @@ export default function Home() {
             />
           </div>
           <div className="flex align-middle self-center items-center gap-2">
-            <Image src={"/heart.png"} alt="heart" width={35} height={30}  />
+            <Image src={"/heart.png"} alt="heart" width={30} height={30} />
             <span>{loading ? " " : heart}</span>
           </div>
         </div>
         <div
-          className={`fixed ${styles.topMenu} z-20`}
+          className={`fixed ${styles.topMenu} z-20 flex p-3 pt-2`}
           style={{ backgroundColor: bgColor }}
-        ></div>
+        >
+          {bgColor === "#FC4E4D" ? (
+            <div><h3 className="font-bold">Модуль 1: </h3><p>Базовая лексика и повседневные выражения</p></div>
+          ) : bgColor === "#02CD9C" ? (
+            <div><h3 className="font-bold">Модуль 2:</h3><p> Лексика для личных и повседневных нужд</p></div>
+          ) : bgColor === "#1CAFF6" ? (
+            <div><h3 className="font-bold">Модуль 2: </h3><p>Темы для простого общения</p></div>
+            
+          ) : (
+            <h3>Непредвиденная ошибка перезапустите страницу!</h3>
+          )}
+        </div>
         <div className="flex justify-center flex-col items-center pt-44 gap-y-7 ">
           <LevelButton numbers={levelsArray} />
         </div>
