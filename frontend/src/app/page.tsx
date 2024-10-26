@@ -125,7 +125,7 @@ export default function Home() {
           ) : bgColor === "#02CD9C" ? (
             <div><h3 className="font-bold">Модуль 2:</h3><p> Лексика для личных и повседневных нужд</p></div>
           ) : bgColor === "#1CAFF6" ? (
-            <div><h3 className="font-bold">Модуль 2: </h3><p>Темы для простого общения</p></div>
+            <div><h3 className="font-bold">Модуль 3: </h3><p>Темы для простого общения</p></div>
             
           ) : (
             <h3>Непредвиденная ошибка перезапустите страницу!</h3>
