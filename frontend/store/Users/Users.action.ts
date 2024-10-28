@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { RegisterValues, LoginValues, User } from "../../helpers/types"; 
+import { RegisterValues, LoginValues, User } from "../../helpers/types";
 import { $axios } from "../../helpers/axios";
 import axios from "axios";
 
@@ -50,19 +50,25 @@ export const loginUser = createAsyncThunk(
 export const fetchCurrentUser = createAsyncThunk(
   "users/fetchCurrentUser",
   async () => {
-    const tokens = JSON.parse(localStorage.getItem("tokens") || "{}");
-    const res = await $axios.get("/users/me", {
-      headers: {
-        'Authorization': `Bearer ${tokens.accessToken}`,
-        'Content-Type': 'application/json',
-      },
-    });
-    return res.data;
+    try {
+
+      const tokens = JSON.parse(localStorage.getItem("tokens") || "{}");
+      const res = await $axios.get("/users/me", {
+        headers: {
+          'Authorization': `Bearer ${tokens.accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      return res.data;
+
+    } catch (error) {
+      console.log(error);
+      
+    }
   }
 );
 
 
-// Пример обновления функции updateCurrentUser
 export const updateCurrentUser = createAsyncThunk(
   "users/updateCurrentUser",
   async (userData: { lives: number }) => {

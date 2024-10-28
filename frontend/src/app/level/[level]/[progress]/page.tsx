@@ -45,7 +45,6 @@ const LevelPage = () => {
       setProgress(Number(decodeProgress));
     }
   }, []);
-
   UseGoBack();
   UseLifeCheker(heart);
 

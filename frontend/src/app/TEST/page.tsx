@@ -41,8 +41,7 @@ const AddWord: React.FC = () => {
                 <input type="text" name="translationEn" placeholder="Перевод (EN)" required />
                 <input type="text" name="translationHi" placeholder="Перевод (HI)" />
                 <input type="number" name="level" placeholder="Уровень" required />
-                <input type="file" name="manSound" accept="audio/*" />
-                <input type="file" name="womanSound" accept="audio/*" />
+
                 <button type="submit">Добавить слово</button>
             </form>
         </div>

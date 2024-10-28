@@ -44,15 +44,6 @@ const LevelInner: React.FC<LevelInnerProps> = ({
 
   const dispatch = useAppDispatch();
 
-  const playAllSounds = async () => {
-    for (const word of words!) {
-      const audio = new Audio(`${BASE_URL}/${word.manSound}`);
-      await audio.play();
-      await new Promise((resolve) => {
-        audio.onended = resolve;
-      });
-    }
-  };
 
   const wordIdsByProgress: { [key: number]: number[] } = {
     0: [1],
@@ -169,7 +160,6 @@ const LevelInner: React.FC<LevelInnerProps> = ({
             width="24"
             height="23"
             preserveAspectRatio="xMidYMid meet"
-            onClick={() => playAllSounds()}
             style={{
               width: "100%",
               height: "100%",
