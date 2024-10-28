@@ -62,7 +62,7 @@ const Word = sequelize.define(
       },
       wordId: {
         type: DataTypes.INTEGER,
-        allowNull: false, // обязательное поле
+        allowNull: false, 
       },
       level: {
         type: DataTypes.INTEGER,
@@ -84,21 +84,32 @@ const Word = sequelize.define(
         type: DataTypes.STRING,
         allowNull: false,
       },
-      manSound: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      womanSound: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
     },
     {
       timestamps: false,
     }
   );
 
+  const Question = sequelize.define("question", {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    questionSetId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    text: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  }, {
+    timestamps: false,
+  });
+
 module.exports = {
   User,
   Word,
+  Question
 };

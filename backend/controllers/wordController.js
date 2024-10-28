@@ -17,9 +17,6 @@ class WordController {
                 level
             } = req.body;
 
-            const manSound = req.files?.manSound ? req.files.manSound[0].filename : null;
-            const womanSound = req.files?.womanSound ? req.files.womanSound[0].filename : null;
-
             const newWord = await Word.create({
                 wordId,
                 word,
@@ -27,8 +24,6 @@ class WordController {
                 translationEn,
                 translationHi,
                 level,
-                manSound: manSound ? `${manSound}` : null,
-                womanSound: womanSound ? `${womanSound}` : null,
             }, { transaction });
 
             await transaction.commit();
@@ -48,7 +43,6 @@ class WordController {
                 return res.status(401).json({ error: 'Authorization token is required' });
             }
 
-            // Проверка токена
             jwt.verify(token, JWT_SECRET, (err) => {
                 if (err) {
                     return res.status(403).json({ error: 'Invalid token' });
@@ -77,7 +71,6 @@ class WordController {
                 return res.status(401).json({ error: 'Authorization token is required' });
             }
 
-            // Проверка токена
             jwt.verify(token, JWT_SECRET, (err) => {
                 if (err) {
                     return res.status(403).json({ error: 'Invalid token' });
@@ -109,8 +102,6 @@ class WordController {
             if (!token) {
                 return res.status(401).json({ error: 'Authorization token is required' });
             }
-
-            // Проверка токена
             jwt.verify(token, JWT_SECRET, (err) => {
                 if (err) {
                     return res.status(403).json({ error: 'Invalid token' });
