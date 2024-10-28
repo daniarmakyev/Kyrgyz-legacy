@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useAppDispatch } from "./types";
-import { useRouter } from "next/navigation";
 import { logout } from "../store/Users/Users.slice";
 
 
@@ -31,7 +30,6 @@ $axios.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // Обработка ошибки 401
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const tokens = JSON.parse(localStorage.getItem("tokens") as string);
@@ -58,7 +56,6 @@ $axios.interceptors.response.use(
       }
     }
 
-    // Обработка ошибки 403
     if (error.response?.status === 403) {
       console.log("Access denied. Logging out.");
       HandleLogout();

@@ -12,7 +12,7 @@ const AuthPage = () => {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [lang, setLang] = useState("ru");
   const [errors, setErrors] = useState<string[]>([]);
-  const [successMessage, setSuccessMessage] = useState<string>(""); // Состояние для сообщения об успехе
+  const [successMessage, setSuccessMessage] = useState<string>("");
   const dispatch = useAppDispatch();
   const { error, loading } = useAppSelector((state) => state.users);
   const router = useRouter()

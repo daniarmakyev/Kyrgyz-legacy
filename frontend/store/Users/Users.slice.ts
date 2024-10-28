@@ -24,7 +24,7 @@ export const usersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
-        state.loading = true;
+        state.loading = true; 
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
@@ -54,8 +54,11 @@ export const usersSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.currentUser = action.payload;
-        
+       if(action.payload.lives){        
         localStorage.setItem('lives', action.payload.lives);
+       }else {
+        localStorage.setItem('lives', " ");
+       }
       })
       
       .addCase(fetchCurrentUser.rejected, (state, action) => {

@@ -27,8 +27,6 @@ export interface Word {
     translationRu: string;
     translationEn: string;
     translationHi: string;
-    manSound?: string;
-    womanSound?: string;
     level: number;
   }
   

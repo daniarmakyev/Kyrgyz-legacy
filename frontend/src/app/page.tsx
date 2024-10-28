@@ -30,6 +30,8 @@ export default function Home() {
   useEffect(() => {
     if (currentUser) {
       setHeart(`${currentUser.lives}`);
+    }else{
+      setHeart(" ");
     }
   }, [currentUser]);
 
