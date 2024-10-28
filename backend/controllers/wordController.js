@@ -8,7 +8,6 @@ class WordController {
     async addWord(req, res) {
         const transaction = await sequelize.transaction();
         try {
-
             const {
                 wordId,
                 word,
