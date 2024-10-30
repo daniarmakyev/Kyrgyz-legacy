@@ -68,7 +68,6 @@ export const fetchCurrentUser = createAsyncThunk(
   }
 );
 
-
 export const updateCurrentUser = createAsyncThunk(
   "users/updateCurrentUser",
   async (userData: { lives: number }) => {
@@ -82,4 +81,3 @@ export const updateCurrentUser = createAsyncThunk(
     return res.data;
   }
 );
-
