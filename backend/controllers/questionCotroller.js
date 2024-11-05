@@ -1,7 +1,7 @@
 const { Question } = require('../models/models');
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 class QuestionController {
   async getQuestionsBySetId(req, res) {

@@ -4,7 +4,7 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
+const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "15m";
 const JWT_REFRESH_EXPIRES_IN = process.env.JWT_REFRESH_EXPIRES_IN || "7d";
 
@@ -54,9 +54,6 @@ class UserController {
 
     try {
       const { email, password, passwordConfirm, lang } = req.body;
-
-      console.log("Received data:", { email, password, passwordConfirm, lang });
-
       if (!email || !validator.isEmail(email)) {
         return res.status(400).json({ error: "Incorrect mail format" });
       }

@@ -2,7 +2,7 @@ const { Word } = require('../models/models');
 const sequelize = require('../db');
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 class WordController {
     async addWord(req, res) {
