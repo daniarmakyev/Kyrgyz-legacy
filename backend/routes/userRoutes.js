@@ -1,20 +1,23 @@
 const express = require('express');
+const RateLimit = require('express-rate-limit');
 const router = express.Router();
 const userController = require('../controllers/userController');
-const questionCotroller = require('../controllers/questionCotroller');
+const questionController = require('../controllers/questionController');
 
-router.post('/register', userController.register);
 
-router.get('/question', questionCotroller.getQuestionsBySetId)
+const limiter = RateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 300, 
+  message: "Слишком много запросов с этого IP, попробуйте позже."
+});
 
-router.post('/login', userController.login);
+router.post('/register', limiter, userController.register);
+router.post('/login', limiter, userController.login);
+router.get('/auth', limiter, userController.check);
+router.patch('/updateUser', limiter, userController.updateUser);
+router.post('/token/refresh', limiter, userController.refresh);
 
-router.get('/auth', userController.check);
-
+router.get('/question', questionController.getQuestionsBySetId);
 router.get('/me', userController.getUser);
-
-router.patch('/updateUser', userController.updateUser);
-
-router.post('/token/refresh', userController.refresh);
 
 module.exports = router;
