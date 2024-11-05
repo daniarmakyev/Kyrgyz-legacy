@@ -17,7 +17,7 @@ router.get('/auth', limiter, userController.check);
 router.patch('/updateUser', limiter, userController.updateUser);
 router.post('/token/refresh', limiter, userController.refresh);
 
-router.get('/question', questionController.getQuestionsBySetId);
-router.get('/me', userController.getUser);
+router.get('/question',limiter, questionController.getQuestionsBySetId);
+router.get('/me',limiter, userController.getUser);
 
 module.exports = router;
