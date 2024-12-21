@@ -1,6 +1,11 @@
 const express = require('express');
 const RateLimit = require('express-rate-limit');
 const router = express.Router();
+const multer = require('multer');
+const wordController = require('../controllers/wordController');
+const storage = multer.memoryStorage(); 
+const upload = multer({ storage });
+const authenticateToken = require('../middleware/jwtTokenMiddleware');
 
 const limiter = RateLimit({
   windowMs: 15 * 60 * 1000,

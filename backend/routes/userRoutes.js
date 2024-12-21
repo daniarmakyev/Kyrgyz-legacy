@@ -2,7 +2,7 @@ const express = require('express');
 const RateLimit = require('express-rate-limit');
 const router = express.Router();
 const userController = require('../controllers/userController');
-const questionController = require('../controllers/questionController');
+const questionController = require('../controllers/questionCotroller');
 
 
 const limiter = RateLimit({

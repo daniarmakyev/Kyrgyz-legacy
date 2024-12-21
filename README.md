@@ -34,3 +34,8 @@ Kyrgyz Legacy - это приложение, аналогичное Duolingo, д
 
 - **Фронтенд** — Vercel
 - **Бэкенд, База данных** — Railway
+
+### Галерея
+
+<img src="./frontend/public/mainMini.png" width="320"/>
+<img src="./frontend/public/levelMini.png" width="320"/>

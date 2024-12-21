@@ -3,7 +3,7 @@ require('dotenv').config();
 const sequelize = require('./db');
 const cors = require('cors');
 const path = require('path');
-const PORT = process.env.PORT || 8080;
+const PORT =  8080;
 const router = require('./routes/index');
 const cron = require('node-cron');
 const {User} = require('./models/models')
