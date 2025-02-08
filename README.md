@@ -1,4 +1,4 @@
-# Kyrgyz Legacy v0.01
+# LexiGo v0.01
 
 ## Описание
 
