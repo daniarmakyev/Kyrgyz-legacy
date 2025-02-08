@@ -15,7 +15,7 @@ const AuthPage = () => {
   const [successMessage, setSuccessMessage] = useState<string>("");
   const dispatch = useAppDispatch();
   const { error, loading } = useAppSelector((state) => state.users);
-  const router = useRouter()
+  const router = useRouter();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -54,8 +54,8 @@ const AuthPage = () => {
         setSuccessMessage("You have successfully registered!");
       }
     });
+    router.replace("/auth/login");
   };
-
 
   useEffect(() => {
     if (error) {
@@ -66,55 +66,51 @@ const AuthPage = () => {
 
   return (
     <div className={style.auth}>
-              {successMessage && (
-          <div className="text-green-500 font-bold mt-4 max-w-44 text-center ms-auto me-auto">
-            {successMessage}
-          </div>
-        )}
+      {successMessage && (
+        <div className="text-green-500 font-bold mt-4 max-w-44 text-center ms-auto me-auto absolute bottom-[20%]">
+          {successMessage}
+        </div>
+      )}
       <h3 className="mb-4 font-semibold">Registration</h3>
       <form onSubmit={handleSubmit} className={style.formochka}>
-        <div>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="Email"
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            placeholder="Password"
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
-            required
-            placeholder="Confirm Password"
-          />
-        </div>
-        <div>
-          <select
-            value={lang}
-            onChange={(e) => setLang(e.target.value)}
-            required
-            className="text-neutral-500"
-          >
-            <option value="" disabled>
-              Select a language
-            </option>
-            <option value="ru">Русский</option>
-            <option value="en">English</option>
-            <option value="hi">हिंदी</option>
-          </select>
-        </div>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          placeholder="Email"
+        />
+
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          placeholder="Password"
+        />
+
+        <input
+          type="password"
+          value={passwordConfirm}
+          onChange={(e) => setPasswordConfirm(e.target.value)}
+          required
+          placeholder="Confirm Password"
+        />
+
+        <select
+          value={lang}
+          onChange={(e) => setLang(e.target.value)}
+          required
+          className="text-neutral-500"
+        >
+          <option value="" disabled>
+            Select a language
+          </option>
+          <option value="ru">Русский</option>
+          <option value="en">English</option>
+          <option value="hi">हिंदी</option>
+        </select>
+
         <button type="submit" disabled={loading} className={style.authBtn}>
           Sign Up
         </button>
@@ -123,9 +119,14 @@ const AuthPage = () => {
         </Link>
         {errors.length > 0 && (
           <div className="error-containe mb-36">
-            <ul className=" text-center">
-            {errors.map((error, index) => (
-                <li className="mb-1 text-red-500 font-bold ms-auto text-center" key={index}>{error}</li>
+            <ul className="text-center">
+              {errors.map((error, index) => (
+                <li
+                  className="mb-1 text-red-500 font-bold ms-auto text-center"
+                  key={index}
+                >
+                  {error}
+                </li>
               ))}
             </ul>
           </div>

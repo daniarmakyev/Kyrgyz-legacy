@@ -43,7 +43,9 @@ const LoginPage = () => {
       console.error("Login Error:", error); 
     }
     if (user) {
-      router.push('/');
+      if(email && password){
+        router.push("/");
+      }
     }
   }, [error,user]);
 
@@ -74,10 +76,10 @@ const LoginPage = () => {
         </button>
         <Link href={"/auth/"} className="ms-auto me-auto">Don&apos;t have an account?</Link>
         {errors.length > 0 && (
-          <div className="error-container">
-            <ul className="absolute left-10">
+          <div className="error-container mx-auto w-[160px]">
+            <ul className="absolute ">
             {errors.map((error, index) => (
-                <li className="mb-1 text-red-500 font-bold ms-auto text-center" key={index}>{error}</li>
+                <li className="mb-1 text-red-500 font-bold ms-auto text-center me-auto" key={index}>{error}</li>
               ))}
             </ul>
           </div>

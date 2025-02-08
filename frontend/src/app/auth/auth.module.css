@@ -14,6 +14,7 @@
     flex-direction: column;
     row-gap: 15px;
     position: relative;
+    max-width: 207px;
 }
 
 .formochka input {
@@ -41,7 +42,7 @@
     height: 60px;
     overflow-y: auto;
     margin-top: 10px;
-    max-width: 100%;
+    width: 200px;
     text-align: center;
 }
 
